@@ -11,6 +11,7 @@ export class CheckBoxDemoPage {
   isChecked1 = true;
   isChecked2 = true;
   isChecked3 = true;
+  isChecked4 = true;
 
   constructor() {
 
