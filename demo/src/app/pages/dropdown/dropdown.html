@@ -75,6 +75,9 @@
     <li value="-">
       <strong>multiple:</strong>&nbsp;&nbsp;Optional. Type of boolean. Default is <strong style="color: tomato">false</strong>
     </li>
+    <li value="-">
+      <strong>serach:</strong>&nbsp;&nbsp;Optional. Type of boolean. Default is <strong style="color: tomato">false</strong>
+    </li>
   </ul>
 </div>
 
@@ -89,6 +92,7 @@
 <lsu-dropdown [(ngModel)]="selectedColor" [data]="colors" [placeHolder]="'select color'"></lsu-dropdown>
 <lsu-dropdown [(ngModel)]="selectedPerson" [data]="persons" [textField]="fieldForShow" [placeHolder]="'select person'"></lsu-dropdown>
 <lsu-dropdown [(ngModel)]="selectedPersons" [data]="persons" [textField]="fieldForShow" [placeHolder]="'select persons'" [multiple]="true"></lsu-dropdown>
+<lsu-dropdown [(ngModel)]="searchedPersons" [data]="persons" [textField]="fieldForShow" [placeHolder]="'select persons'"[search]="true"></lsu-dropdown>
         </textarea>
       </pre>
     </lsu-tab>
