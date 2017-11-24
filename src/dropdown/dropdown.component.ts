@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, forwardRef,OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import _ from "lodash";
 
 @Component({
   selector: 'lsu-dropdown',
@@ -10,13 +11,17 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
   },
   template: `
       <div class="ui fluid selection dropdown" [attr.id]="id"
-           [ngClass]="{'active':active,'visible':active,'multiple':multiple,'disabled':disabled}"
+           [ngClass]="{'active':active,'visible':active,'search':search,'multiple':multiple,'disabled':disabled}"
            (click)="toggleSelectPanel($event)">
           <i class="dropdown icon"></i>
-          <div class="default text" *ngIf="!selectedItem || selectedItem.length == 0">
+          <ng-container *ngIf="search">
+            <input class="search" autocomplete='off' tabindex="0" [(ngModel)]="searchVal" (ngModelChange)="filterSearch($event)">
+          </ng-container>
+
+          <div class="default text" *ngIf="(!selectedItem || selectedItem.length == 0 )&& searchVal.length==0">
               {{ placeHolder }}
           </div>
-          <div class="text" *ngIf="selectedItem && !multiple">
+          <div class="text" *ngIf="selectedItem && !multiple && !(searchVal.length>0)">
               {{ selectedItem[textField] || selectedItem }}
           </div>
           <div *ngIf="selectedItem && multiple">
@@ -33,6 +38,8 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
               </div>
           </div>
       </div>
+
+
   `,
   animations: [
     trigger('menuPanelState', [
@@ -73,8 +80,15 @@ export class DropdownComponent implements ControlValueAccessor {
   @Input()
   public multiple: boolean = false;
 
+  public searchVal: any = '';
+
+  @Input()
+  public search:boolean=false;
+
   @Output()
   public change: EventEmitter<any> = new EventEmitter<any>();
+  public dataCopy:any;
+
 
   get active(): boolean {
     return this._active;
@@ -136,6 +150,9 @@ export class DropdownComponent implements ControlValueAccessor {
   }
 
   ngOnInit(): void {
+    if(this.search){
+      this.dataCopy = _.clone(this.data, true);
+    }
 
   }
 
@@ -193,7 +210,48 @@ export class DropdownComponent implements ControlValueAccessor {
 
   setValue(value: any) {
     this.selectedItem = value;
+    this.searchVal ='';
     this._onChange(value);
     this.change.next(value);
+  }
+
+  filterSearch(value:any){
+    // its plain simple array => textField ='text'
+    // its object arrray but no searchBy specified=> textField
+    // its object array and search by not empty => searchby will handel this use case later
+    let s = this.textField;
+    if(this.textField==='text'){
+      this.data = this.dataCopy.filter(function(o){
+        if (o.toLowerCase().indexOf(value.toLowerCase()) >= 0){
+          return true
+        }
+      });
+
+      if(!value){
+        this.data = _.clone(this.dataCopy, true);
+      }
+    }
+
+    else{
+      this.data = this.dataCopy.filter(function(o){
+        if (o[s].toLowerCase().indexOf(value.toLowerCase()) >= 0){
+          return true
+        }
+      });
+
+      if(!value){
+        this.data = _.clone(this.dataCopy, true);
+      }
+    }
+
+
+
+    // console.log(this.data);
+
+
+  }
+
+  searchText(obj,val,searchBy){
+
   }
 }

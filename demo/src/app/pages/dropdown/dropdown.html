@@ -15,7 +15,7 @@
   <hr>
   <div class="ui two column grid">
     <div class="column">
-      <lsu-dropdown [(ngModel)]="selectedColor" [data]="colors" [placeHolder]="'select color'"></lsu-dropdown>
+      <lsu-dropdown [(ngModel)]="selectedColor" [data]="colors" [placeHolder]="'select color'" [search]="true"></lsu-dropdown>
       <div class="ui message" *ngIf="selectedColor">
         <strong>Selected Color: </strong> {{ selectedColor | json }}
       </div>
@@ -38,6 +38,18 @@
     [multiple]="true"></lsu-dropdown>
   <div class="ui message" *ngIf="selectedPersons && selectedPersons.length > 0">
     <strong>Selected Persons: </strong> {{ selectedPersons | json }}
+  </div>
+</div>
+
+<div class="m-t-md">
+  <label class="ui large teal label">
+    Search Select
+  </label>
+  <hr>
+  <lsu-dropdown [(ngModel)]="searchedPersons" [data]="persons" [textField]="fieldForShow" [placeHolder]="'select persons'"
+    [search]="true"></lsu-dropdown>
+  <div class="ui message" >
+    <strong>Selected Persons: </strong> {{ searchedPersons | json }}
   </div>
 </div>
 
@@ -95,6 +107,7 @@ export class DropdownDemoPage {
   selectedColor: string;
   selectedPerson: any;
   selectedPersons: Array<any> = [];
+  searchedPersons: Array<any> = [];
   colors: Array<string> = [];
   persons: Array<any> = [];
   fieldForShow: string;

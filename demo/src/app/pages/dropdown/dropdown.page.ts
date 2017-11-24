@@ -10,6 +10,7 @@ export class DropdownDemoPage {
   selectedColor: string;
   selectedPerson: any;
   selectedPersons: Array<any> = [];
+  searchedPersons: Array<any> = [];
   colors: Array<string> = [];
   persons: Array<any> = [];
   fieldForShow: string;
@@ -31,6 +32,45 @@ export class DropdownDemoPage {
         "age": 25
       }, {
         "id": 3,
+        "name": "Jim",
+        "age": 15
+      },
+      {
+        "id": 4,
+        "name": "Tom",
+        "age": 18
+      }, {
+        "id": 5,
+        "name": "Jerry",
+        "age": 25
+      }, {
+        "id": 6,
+        "name": "Jim",
+        "age": 15
+      },
+      {
+        "id": 7,
+        "name": "Tom",
+        "age": 18
+      }, {
+        "id": 8,
+        "name": "Jerry",
+        "age": 25
+      }, {
+        "id": 9,
+        "name": "Jim",
+        "age": 15
+      },
+      {
+        "id": 10,
+        "name": "Tom",
+        "age": 18
+      }, {
+        "id": 11,
+        "name": "Jerry",
+        "age": 25
+      }, {
+        "id": 12,
         "name": "Jim",
         "age": 15
       }
